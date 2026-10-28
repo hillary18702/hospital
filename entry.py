@@ -7,13 +7,11 @@ def entry_action():
     global IS_LOGIN
     username=input("Enter username: ")
     password = input("Enter password: ")
-
     
-
     login= Auth.login(username, password)
-    print(login)
+    # print(login)
 
-    if login['status'] == 400:
+    if login['status'] == 201:
         print("Logged in")
         # print(login)
         IS_LOGIN=True
@@ -21,7 +19,7 @@ def entry_action():
         while IS_LOGIN:
             act=action()
             operation= activity(act)
-            print(operation)
+            # print(operation)
 
     else:
         print(login)
@@ -37,6 +35,7 @@ def action():
     print("4. Get all patients")
     print("5. Remove patient")
     print("6. Logout")
+    print("7. Change password")
     choice=input("Enter the activity: ")
     return choice
 
@@ -49,7 +48,8 @@ def activity(choice):
             print(response)
 
         elif int(choice) == 2:
-            pass
+            response = Patient.update_patient()
+            print(response)
         elif int(choice) == 3:
             response= Patient.get_patient()
             print(response)
@@ -64,7 +64,10 @@ def activity(choice):
 
         elif int(choice) == 6:
             IS_LOGIN=False
-            
+
+        elif int(choice) == 7:
+            response = Auth.change_password()
+            print(response)
 
     except ValueError:
         return "Please provide a valid choice"
